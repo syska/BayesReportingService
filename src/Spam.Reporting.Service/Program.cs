@@ -13,15 +13,20 @@ namespace Spam.Reporting.Service
 
 			var watcher = new FileSystemWatcher(path, "*.*");
 			watcher.Renamed += WatcherOnRenamed;
+			watcher.Created += WatcherOnCreated;
 			watcher.EnableRaisingEvents = true;
 			watcher.IncludeSubdirectories = true;
 			Console.WriteLine("Listening on: {0}", path);
 			Console.ReadLine();
 		}
 
+		private static void WatcherOnCreated(object sender, FileSystemEventArgs fileSystemEventArgs)
+		{
+			Console.WriteLine("Created: {0}", fileSystemEventArgs.FullPath);
+		}
+
 		private static void WatcherOnRenamed(object sender, RenamedEventArgs renamedEventArgs)
 		{
-			
 			Console.WriteLine("From: {0}, To: {1}", renamedEventArgs.OldFullPath, renamedEventArgs.FullPath);
 		}
 	}
